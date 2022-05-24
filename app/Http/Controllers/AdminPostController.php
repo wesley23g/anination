@@ -8,6 +8,10 @@ use Illuminate\Validation\Rule;
 
 class AdminPostController extends Controller
 {
+    /**
+     * Shows up to 50 posts per page (dashboard).
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function index()
     {
         return view('admin.posts.index', [
@@ -15,11 +19,19 @@ class AdminPostController extends Controller
         ]);
     }
 
+    /**
+     * Create a post as an admin.
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function create()
     {
         return view('admin.posts.create');
     }
 
+    /**
+     * Store a post after filling in fields and submitting the form.
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function store()
     {
         Post::create(array_merge($this->validatePost(), [
@@ -30,11 +42,21 @@ class AdminPostController extends Controller
         return redirect('/');
     }
 
+    /**
+     * Edits the post instance given in the parameter.
+     * @param \App\Models\Post $post
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function edit(Post $post)
     {
         return view('admin.posts.edit', ['post' => $post]);
     }
 
+    /**
+     * Updates the post instance given in the parameter after validating all attributes using the validatePost() method.
+     * @param \App\Models\Post $post
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(Post $post)
     {
         $attributes = $this->validatePost($post);
@@ -48,6 +70,11 @@ class AdminPostController extends Controller
         return back()->with('success', 'Post updated');
     }
 
+    /**
+     * Destroys a post after checking if the current given thumbnail exists or not
+     * @param \App\Models\Post $post
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function destroy(Post $post)
     {
         if (Storage::exists('storage/' . $post->thumbnail)) {

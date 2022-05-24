@@ -13,6 +13,12 @@ class Post extends Model
 
     protected $with = ['category', 'author', 'comments'];
 
+    /**
+     * Filter the given search criteria and merge together if search is combined with category
+     * @param       $query
+     * @param array $filters
+     * @return void
+     */
     public function scopeFilter($query, array $filters)
     {
         $query->when($filters['search'] ?? false, fn ($query, $search) =>
@@ -35,16 +41,28 @@ class Post extends Model
         );
     }
 
+    /**
+     * Get the comments that belong to the post.
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
     }
 
+    /**
+     * Get the category that belongs to the post.
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
     }
 
+    /**
+     * Get the author that belongs to the post.
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');

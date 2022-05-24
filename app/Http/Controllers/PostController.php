@@ -3,16 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
-use Illuminate\Support\Facades\Gate;
 
 class PostController extends Controller
 {
+    /**
+     * Returns the homepage where all posts con which contains all posts sorted by the publishing date.
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function index()
     {
-//        dd(Gate::allows('admin'));
-//        dd(request()->user()->cannot('admin'));
-//        $this->authorize('admin');
-
         return view('posts.index', [
             'posts' => Post::latest()->filter(
                 request(['search', 'category', 'author'])
@@ -20,6 +19,11 @@ class PostController extends Controller
         ]);
     }
 
+    /**
+     * Shows one post and its comments underneath it.
+     * @param \App\Models\Post $post
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function show(Post $post)
     {
         return view('posts.show', [

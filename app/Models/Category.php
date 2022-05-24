@@ -10,6 +10,10 @@ class Category extends Model
 {
     use HasFactory;
 
+    /**
+     * Get the posts for the category.
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
