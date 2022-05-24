@@ -17,6 +17,8 @@ My exam project AniNation consists of an anime themed blog website.
 - Alpine.js
 - Composer
 - NPM
+- MySQL
+- Homebrew (optional for installing software)
 
 ### Setup for development
 
@@ -34,6 +36,25 @@ My exam project AniNation consists of an anime themed blog website.
   ```bash
   npm ci
   npm run dev
+  ```
+- Run migrations:
+  ```bash
+  php artisan migrate --seed
+  ```
+  Or
+  ```bash
+  php artisan migrate
+  php artisan db:seed
+  ```
+- Valet park so you can access website with "name".test:
+  ```bash
+  composer global require laravel/valet
+  valet install
+  valet link (name of current directory)
+  ```
+  To test if it works:
+  ```bash
+  ping foobar.test
   ```
 
 ## Tests
